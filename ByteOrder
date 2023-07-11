@@ -1,0 +1,12 @@
+func nativeEndianness() binary.ByteOrder {
+	buf := [2]byte{}
+	*(*uint16)(unsafe.Pointer(&buf[0])) = uint16(0xabcd)
+	switch buf {
+	case [2]byte{0xcd, 0xab}:
+		return binary.LittleEndian
+	case [2]byte{0xab, 0xcd}:
+		return binary.BigEndian
+	default:
+		panic("Could not determine native endianness.")
+	}
+}
